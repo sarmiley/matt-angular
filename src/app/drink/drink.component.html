@@ -1,0 +1,7 @@
+<div>
+  <app-drink-card *ngFor="let item of shopList" [drinkCard]="item" [name]="count" (click)="addOne()">
+    <div card-img>
+      <img class="shop-card-img-detail">
+    </div>
+  </app-drink-card>
+</div>

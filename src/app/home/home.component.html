@@ -1,0 +1,48 @@
+
+<div class="container" role="main">
+  <!-- <app-todo-list></app-todo-list> -->
+
+  <div>
+    <h1>
+      Public Key
+    </h1>
+    <p>
+      {{publicKey}}
+    </p>
+    <h1>
+      Encrypt Data
+    </h1>
+    <p>
+      {{encData}}
+    </p>
+    <h1>
+      Data
+    </h1>
+    <div>
+      <input type="text" [(ngModel)]="message">
+      <button (click)="encryptSend()">send</button>
+    </div>
+  </div>
+  <br>
+  <br>
+  <br>
+  <div>
+    <button (click)="testThread1()">Test Thread 1</button>
+  </div>
+  <div>
+    <button (click)="testThread2()">Test Thread 2</button>
+  </div>
+
+
+
+
+
+  <div class="router-area">
+    <button  (click)="send()">送出</button>
+
+    <p><a [routerLink]="'/home'">Home</a></p>
+    <p><a [routerLink]="'/logout'">Logout</a></p>
+    <p><a [routerLink]="'/drink'">Drink</a></p>
+  </div>
+
+</div>

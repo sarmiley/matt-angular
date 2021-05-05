@@ -1,0 +1,12 @@
+<div class="shop-card"  mat-button>
+<!-- <div class="shop-card"  mat-button > -->
+  <div class="shop-card-img">
+    <ng-content select="[card-img]"></ng-content>
+  </div>
+
+  {{ name }}
+
+  <p><span>店名：</span>{{ drinkCard.name }}</p>
+  <p><span>tel：</span>{{ drinkCard.tel }}</p>
+  <p><span>營業時間：</span><span class="bis-time">{{ drinkCard.bisDates }}</span><span>{{ drinkCard.bisTimes }}</span></p>
+</div>
