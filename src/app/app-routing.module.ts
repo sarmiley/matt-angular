@@ -4,6 +4,8 @@ import { AppComponent } from './app.component'
 import { HomeComponent } from './home/home.component'
 import { LogoutComponent } from './logout/logout.component'
 import { DrinkComponent } from './drink/drink.component'
+import { DropTableComponent } from './drop-table/drop-table.component'
+import { DropTableCustomComponent } from './drop-table-custom/drop-table-custom.component';
 
 
 const routes: Routes = [
@@ -16,6 +18,14 @@ const routes: Routes = [
     component: AppComponent,
     children: [
       {
+        path: 'dropTable',
+        component: DropTableComponent,
+      },
+      {
+        path: 'dropTableCustom',
+        component: DropTableCustomComponent,
+      },
+      {
         path: 'home',
         component: HomeComponent,
       },
@@ -25,7 +35,7 @@ const routes: Routes = [
       },
       {
         path: '',
-        redirectTo: 'home',
+        redirectTo: 'dropTable',
         pathMatch: 'full'
       }
     ]

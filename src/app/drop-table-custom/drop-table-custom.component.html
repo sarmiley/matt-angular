@@ -1,0 +1,86 @@
+<div>
+  <div class="btn-container">
+    <button
+      class="table-btn"
+      mat-stroked-button
+      color="primary"
+      (click)="clearTable()"
+    >
+      clear Table
+    </button>
+    <button
+      class="table-btn"
+      mat-stroked-button
+      color="primary"
+      (click)="syncTable()"
+    >
+      sync Table
+    </button>
+    <button
+      class="table-btn"
+      mat-stroked-button
+      color="primary"
+      (click)="addRow()"
+    >
+      add Row
+    </button>
+  </div>
+  <div class="drop-table" cdkDropList (cdkDropListDropped)="drop($event)">
+    <div class="drop-row mat-header-row cdk-header-row">
+      <div class="drop-cell">No</div>
+      <div class="drop-cell">Name</div>
+      <div class="drop-cell">Content</div>
+      <div class="drop-cell drop-cell-sort">Sort</div>
+    </div>
+    <div
+      class="drop-row"
+      cdkDrag
+      *ngFor="let item of items; let i = index"
+      (click)="item.isExpanded = !item.isExpanded"
+    >
+      <div class="drop-cell">{{ i + 1 }}</div>
+      <div class="drop-cell">{{ item.name }}</div>
+      <div class="drop-cell">{{ item.desc }}</div>
+      <div class="drop-cell drop-cell-sort">
+        <img class="ic-sort" src="./../../assets/images/sort.png" />
+      </div>
+      <div
+        class="example-element-detail"
+        [@detailExpand]="item.isExpanded ? 'expanded' : 'collapsed'"
+      >
+        <div class="inner-table-area">
+          <table
+            class="inner-table"
+            cdkDropList
+            (cdkDropListDropped)="innerDrop($event, item.content)"
+          >
+            <thead>
+              <tr class="inner-tr">
+                <th class="inner-td">No</th>
+                <th class="inner-td">Name</th>
+                <th class="inner-td">desc</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                class="inner-tr"
+                *ngFor="let item of item.content; let i = index"
+                cdkDrag
+              >
+                <td class="inner-td">
+                  {{ i + 1 }}
+                </td>
+                <td class="inner-td">
+                  {{ item.name }}
+                </td>
+                <td class="inner-td">
+                  {{ item.desc }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

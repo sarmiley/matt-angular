@@ -7,7 +7,7 @@ import { DrinkService} from './drink.service'
 @Component({
   selector: 'app-drink',
   templateUrl: './drink.component.html',
-  styleUrls: ['./drink.component.css']
+  styleUrls: ['./drink.component.scss']
 })
 export class DrinkComponent implements OnInit {
 

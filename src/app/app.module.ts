@@ -3,6 +3,9 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule} from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatTableModule } from '@angular/material/table';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import {MatButtonModule} from '@angular/material/button';
 
 
 
@@ -18,6 +21,8 @@ import { LogoutComponent } from './logout/logout.component';
 import { HomeComponent } from './home/home.component';
 import { PopupModalComponent } from './popup-modal/popup-modal.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { DropTableComponent } from './drop-table/drop-table.component';
+import { DropTableCustomComponent } from './drop-table-custom/drop-table-custom.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +31,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     HomeComponent,
     DrinkComponent,
     DrinkCardComponent,
-    PopupModalComponent
+    PopupModalComponent,
+    DropTableComponent,
+    DropTableCustomComponent
    ],
   imports: [
     BrowserModule,
@@ -35,7 +42,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     FormsModule,
     HttpClientModule,
     MatDialogModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    DragDropModule,
+    MatTableModule,
+    MatButtonModule
   ],
   providers: [],
   bootstrap: [AppComponent]
