@@ -16,40 +16,105 @@ import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
 })
 export class DropTableCustomComponent implements OnInit {
 
-
-
-  innerData1: fakeData[] = [
-    { name: 'inner data 1', desc: 'I can fly' },
-    { name: 'inner data 2', desc: 'I can drink' },
-    { name: 'inner data 3', desc: 'I can eat' }
+  catheySys: FakeItem[] = [{
+    itemName: '需求訪談',
+    priority: '高',
+    estStartDate: '2021/02/01',
+    estEndDate: '2021/02/14',
+    realStartDate: '2021/02/01',
+    realEndDate: '2021/02/14',
+    estComplateRate: 100,
+    realComplateRate: 100,
+    state: 'NOT STARTED',
+    principal: '劉小明',
+    isExpanded: false,
+    doc: 'https://goo.gl/1357abc',
+    subItem: [
+      {
+        itemName: '登入/登出',
+        priority: '中',
+        estStartDate: '2021/03/05',
+        estEndDate: '2021/03/07',
+        realStartDate: '2021/03/05',
+        realEndDate: '2021/02/14',
+        isExpanded: false,
+        estComplateRate: 100,
+        realComplateRate: 100,
+        state: 'NOT STARTED',
+        principal: '劉小明',
+        doc: 'https://goo.gl/1357abc',
+      },
+      {
+        itemName: '組織管理',
+        priority: '中',
+        estStartDate: '2021/03/07',
+        estEndDate: '2021/03/09',
+        realStartDate: '2021/03/05',
+        realEndDate: '2021/02/14',
+        isExpanded: false,
+        estComplateRate: 100,
+        realComplateRate: 100,
+        state: 'NOT STARTED',
+        principal: '劉小明',
+        doc: 'https://goo.gl/1357abc',
+      },
+    ]
+  },
+  {
+    itemName: '視覺搞設計版面定稿',
+    priority: '中',
+    estStartDate: '2021/02/15',
+    estEndDate: '2021/03/01',
+    realStartDate: '2021/03/05',
+    realEndDate: '2021/02/14',
+    isExpanded: false,
+    estComplateRate: 100,
+    realComplateRate: 100,
+    state: 'NOT STARTED',
+    principal: '劉小明',
+    doc: 'https://goo.gl/1357abc',
+  },
+  {
+    itemName: '系統分析與設計',
+    priority: '高',
+    estStartDate: '2021/02/20',
+    estEndDate: '2021/03/15',
+    realStartDate: '2021/03/05',
+    realEndDate: '2021/02/14',
+    isExpanded: false,
+    estComplateRate: 100,
+    realComplateRate: 100,
+    state: 'NOT STARTED',
+    principal: '劉小明',
+    doc: 'https://goo.gl/1357abc',
+  },
+  {
+    itemName: '開發環境建置',
+    priority: '低',
+    estStartDate: '2021/02/20',
+    estEndDate: '2021/03/01',
+    realStartDate: '2021/03/05',
+    realEndDate: '2021/02/14',
+    isExpanded: false,
+    estComplateRate: 100,
+    realComplateRate: 100,
+    state: 'NOT STARTED',
+    principal: '劉小明',
+    doc: 'https://goo.gl/1357abc',
+  }
   ];
 
-  innerData2: fakeData[] = [
-    { name: 'inner data www 1', desc: 'I can fly' },
-    { name: 'inner data www 2', desc: 'I can drink' },
-    { name: 'inner data www 3', desc: 'I can eat' }
-  ];
 
-  innerData3: fakeData[] = [
-    { name: 'inner data lalala 1', desc: 'I can fly' },
-    { name: 'inner data lalala 2', desc: 'I can drink' },
-    { name: 'inner data lalala 3', desc: 'I can eat' }
-  ];
+  editItem: FakeItem;
 
-  datasource: fakeData[] = [
-    { name: 'test1', desc: 'desc1', content: this.innerData1, isExpanded: false},
-    { name: 'test2', desc: 'desc2',  content: this.innerData2, isExpanded: false},
-    { name: 'test3', desc: 'desc3', content: this.innerData3, isExpanded: false}
-  ];
-
-  items = this.datasource;
+  items = this.catheySys;
 
 
 
   constructor() { }
 
   syncTable(): void {
-    this.items = this.datasource;
+    this.items = this.catheySys;
   }
 
   clearTable(): void {
@@ -70,19 +135,68 @@ export class DropTableCustomComponent implements OnInit {
   }
 
   addRow(): void{
-    const newFakeData: fakeData =  { name: 'test3', desc: 'desc3', isExpanded: false};
-    this.items.push(newFakeData);
+    const newFakeData: FakeItem =  { itemName: '',estStartDate : '', estEndDate: '', isExpanded: false};
+    this.catheySys.push(newFakeData);
+    this.editItem = newFakeData;
   }
 
+  addSubRow(subItem: FakeItem[]): void{
+    const newFakeData: FakeItem =  { itemName: '', estStartDate : '', estEndDate: '', isExpanded: false};
+    subItem.push(newFakeData);
+    this.editItem = newFakeData;
+  }
+
+  addSubItem(item: FakeItem): void {
+    if (item.subItem) {
+      item.isExpanded = true;
+    } else {
+      item.subItem = [];
+      this.addSubRow(item.subItem);
+      item.isExpanded = true;
+    }
+
+  }
   showData(): any{
     return JSON.stringify(this.items);
+  }
+
+  editOtherItemNow(item: FakeItem): boolean {
+    if (!this.editItem) {
+      return false;
+    } else if (this.editItem === item) {
+      return false;
+    }
+    return true;
+  }
+  setEditItem(item: FakeItem): void {
+    this.editItem = item;
+  }
+  confrimItem(): void {
+    this.editItem = null;
   }
 }
 
 
-export interface fakeData {
+export interface Fakeata {
   name: string;
   desc: string;
-  content?: fakeData[];
+  content?: Fakeata[];
   isExpanded?: boolean;
+  p?: string;
+}
+
+export interface FakeItem {
+  itemName: string;
+  priority?: string;
+  estStartDate: string;
+  estEndDate: string;
+  realStartDate?: string;
+  realEndDate?: string;
+  estComplateRate?: number;
+  realComplateRate?: number;
+  doc?: string;
+  state?: string;
+  principal?: string;
+  subItem?: FakeItem[];
+  isExpanded: boolean;
 }

@@ -1,25 +1,71 @@
 .drop-table {
-  background-color: white;
-  border: 1px solid gray;
-  display: table;
   margin: 20px;
 }
 
 .drop-row {
-  background-color: white;
-  display: block;
-  border: 1px solid gray;
+  width: 1701px;
 }
 
 .drop-cell {
   background-color: white;
-  display: inline-block;
   border: 1px solid gray;
+  display: inline-block;
   padding: 5px;
-  width: 150px;
-  line-height: 35px;
+  min-width: 50px;
+  line-height: 37px;
+  height: 37px;
   &.drop-cell-sort {
     width: 35px;
+  }
+  &.cell {
+    overflow: hidden;
+    &__z2 {
+      width: 60px;
+    }
+    &__z5 {
+      width: 115px;
+    }
+    &__z10 {
+      width: 160px;
+    }
+    &__z15 {
+      width: 230px;
+    }
+  }
+}
+.cell__z5 input {
+  width: 100px;
+}
+
+.inner-drop-row {
+  width: 1531px;
+  display: block;
+}
+
+.inner-drop-cell {
+  background-color: white;
+  border: 1px solid gray;
+  display: inline-block;
+  padding: 5px;
+  min-width: 50px;
+  line-height: 37px;
+  &.drop-cell-sort {
+    width: 35px;
+  }
+  &.cell {
+    overflow: hidden;
+    &__z2 {
+      width: 50px;
+    }
+    &__z5 {
+      width: 105px;
+    }
+    &__z10 {
+      width: 150px;
+    }
+    &__z15 {
+      width: 180px;
+    }
   }
 }
 
@@ -34,21 +80,13 @@
   width: 80%;
   border: 2px solid black;
 }
-.inner-tr {
-  border: 2px solid black;
-}
-.inner-td {
-  padding: 5px;
-  border: 2px solid black;
-}
 
-.ic-sort {
-  height: 22px;
-  width: 22px;
+.table-btn {
+  margin-right: 5px;
 }
 
 .example-list {
-  width: 500px;
+  width: 535px;
   max-width: 100%;
   border: solid 1px #ccc;
   min-height: 60px;
@@ -104,23 +142,8 @@ table {
   width: 100%;
 }
 
-tr.example-detail-row {
-  height: 0;
-}
-
-tr.example-element-row:not(.example-expanded-row):hover {
-  background: whitesmoke;
-}
-
-tr.example-element-row:not(.example-expanded-row):active {
-  background: #efefef;
-}
-
-.example-element-row td {
-  border-bottom-width: 0;
-}
-
 .example-element-detail {
+  width: 1697px;
   overflow: hidden;
   background-color: #a0a0a0;
   display: flex;

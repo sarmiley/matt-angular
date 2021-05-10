@@ -1,21 +1,5 @@
-<div>
+<div style="width: 1920px">
   <div class="btn-container">
-    <button
-      class="table-btn"
-      mat-stroked-button
-      color="primary"
-      (click)="clearTable()"
-    >
-      clear Table
-    </button>
-    <button
-      class="table-btn"
-      mat-stroked-button
-      color="primary"
-      (click)="syncTable()"
-    >
-      sync Table
-    </button>
     <button
       class="table-btn"
       mat-stroked-button
@@ -26,60 +10,308 @@
     </button>
   </div>
   <div class="drop-table" cdkDropList (cdkDropListDropped)="drop($event)">
-    <div class="drop-row mat-header-row cdk-header-row">
-      <div class="drop-cell">No</div>
-      <div class="drop-cell">Name</div>
-      <div class="drop-cell">Content</div>
-      <div class="drop-cell drop-cell-sort">Sort</div>
+    <div class="drop-row example-detail-row">
+      <div class="drop-cell cell__z2">序號</div>
+      <div class="drop-cell cell__z10">項目</div>
+      <div class="drop-cell cell__z2">優先權</div>
+      <div class="drop-cell cell__z5">預計起始日</div>
+      <div class="drop-cell cell__z5">預計完成日</div>
+      <div class="drop-cell cell__z5">實際起始日</div>
+      <div class="drop-cell cell__z5">實際完成日</div>
+      <div class="drop-cell cell__z5">預計完成率(%)</div>
+      <div class="drop-cell cell__z5">實際完成率(%)</div>
+      <div class="drop-cell cell__z5">佐證文件連結</div>
+      <div class="drop-cell cell__z5">狀態</div>
+      <div class="drop-cell cell__z5">負責人員</div>
+      <div class="drop-cell cell__z15">操作</div>
     </div>
     <div
-      class="drop-row"
+      class="drop-row example-detail-row"
+      cdkDragLockAxis="y"
       cdkDrag
-      *ngFor="let item of items; let i = index"
-      (click)="item.isExpanded = !item.isExpanded"
+      *ngFor="let item of catheySys; let i = index"
     >
-      <div class="drop-cell">{{ i + 1 }}</div>
-      <div class="drop-cell">{{ item.name }}</div>
-      <div class="drop-cell">{{ item.desc }}</div>
-      <div class="drop-cell drop-cell-sort">
-        <img class="ic-sort" src="./../../assets/images/sort.png" />
+      <ng-container *ngIf="editItem === item; else elseTemplate">
+        <div class="drop-cell cell__z2">{{ i + 1 }}</div>
+        <div class="drop-cell cell__z10">
+          <input type="text" [(ngModel)]="item.itemName" />
+        </div>
+        <div class="drop-cell cell__z2">
+          <select [(ngModel)]="item.priority">
+            <option value="">請選擇</option>
+            <option value="高">高</option>
+            <option value="中">中</option>
+            <option value="低">低</option>
+          </select>
+        </div>
+        <div class="drop-cell cell__z5">
+          <input type="text" [(ngModel)]="item.estStartDate" />
+        </div>
+        <div class="drop-cell cell__z5">
+          <input type="text" [(ngModel)]="item.estEndDate" />
+        </div>
+        <div class="drop-cell cell__z5">
+          <input type="text" [(ngModel)]="item.realStartDate" />
+        </div>
+        <div class="drop-cell cell__z5">
+          <input type="text" [(ngModel)]="item.realEndDate" />
+        </div>
+        <div class="drop-cell cell__z5">
+          <input type="text" [(ngModel)]="item.estComplateRate" />
+        </div>
+        <div class="drop-cell cell__z5">
+          <input type="text" [(ngModel)]="item.realComplateRate" />
+        </div>
+        <div class="drop-cell cell__z5">
+          <input type="text" [(ngModel)]="item.doc" />
+        </div>
+        <div class="drop-cell cell__z5">
+          <input type="text" [(ngModel)]="item.state" />
+        </div>
+        <div class="drop-cell cell__z5">
+          <input type="text" [(ngModel)]="item.principal" />
+        </div>
+      </ng-container>
+      <ng-template #elseTemplate>
+        <div class="drop-cell cell__z2">{{ i + 1 }}</div>
+        <div
+          class="drop-cell cell__z10"
+          (click)="item.isExpanded = !item.isExpanded"
+        >
+          <ng-container *ngIf="item.subItem; else elseTemplate">
+            {{ item.itemName }} v
+          </ng-container>
+          <ng-template #elseTemplate>
+            {{ item.itemName }}
+          </ng-template>
+        </div>
+        <div class="drop-cell cell__z2">{{ item.priority }}</div>
+        <div class="drop-cell cell__z5">{{ item.estStartDate }}</div>
+        <div class="drop-cell cell__z5">{{ item.estEndDate }}</div>
+        <div class="drop-cell cell__z5">{{ item.realStartDate }}</div>
+        <div class="drop-cell cell__z5">{{ item.realEndDate }}</div>
+        <div class="drop-cell cell__z5">{{ item.estComplateRate }}</div>
+        <div class="drop-cell cell__z5">{{ item.realComplateRate }}</div>
+        <div class="drop-cell cell__z5">{{ item.doc }}</div>
+        <div class="drop-cell cell__z5">{{ item.state }}</div>
+        <div class="drop-cell cell__z5">{{ item.principal }}</div>
+      </ng-template>
+
+      <div class="drop-cell cell__z15">
+        <button
+          [disabled]="editOtherItemNow(item)"
+          class="table-btn"
+          mat-stroked-button
+          color="primary"
+          (click)="clearTable()"
+        >
+          刪除
+        </button>
+        <button
+          *ngIf="!(editItem === item)"
+          [disabled]="editOtherItemNow(item)"
+          class="table-btn"
+          mat-raised-button
+          color="primary"
+          (click)="setEditItem(item)"
+        >
+          編輯
+        </button>
+        <button
+          *ngIf="editItem === item"
+          class="table-btn"
+          mat-raised-button
+          color="primary"
+          (click)="confrimItem(item)"
+        >
+          確認
+        </button>
+        <button
+          [disabled]="editOtherItemNow(item)"
+          class="table-btn"
+          mat-raised-button
+          color="primary"
+          (click)="addSubItem(item)"
+        >
+          子項目
+        </button>
       </div>
       <div
+        *ngIf="item.subItem"
         class="example-element-detail"
         [@detailExpand]="item.isExpanded ? 'expanded' : 'collapsed'"
       >
-        <div class="inner-table-area">
-          <table
-            class="inner-table"
-            cdkDropList
-            (cdkDropListDropped)="innerDrop($event, item.content)"
+        <!--  inner area -->
+        <div class="btn-container">
+          <button
+            class="table-btn"
+            mat-stroked-button
+            color="primary"
+            (click)="addSubRow(item.subItem)"
           >
-            <thead>
-              <tr class="inner-tr">
-                <th class="inner-td">No</th>
-                <th class="inner-td">Name</th>
-                <th class="inner-td">desc</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr
-                class="inner-tr"
-                *ngFor="let item of item.content; let i = index"
-                cdkDrag
-              >
-                <td class="inner-td">
-                  {{ i + 1 }}
-                </td>
-                <td class="inner-td">
-                  {{ item.name }}
-                </td>
-                <td class="inner-td">
-                  {{ item.desc }}
-                </td>
-              </tr>
-            </tbody>
-          </table>
+            add Row
+          </button>
         </div>
+        <div class="inner-table-area">
+          <div
+            class="drop-table"
+            cdkDropList
+            (cdkDropListDropped)="innerDrop($event, item.subItem)"
+          >
+            <div class="drop-row">
+              <div class="inner-drop-cell cell__z2">序號</div>
+              <div class="inner-drop-cell cell__z10">項目</div>
+              <div class="inner-drop-cell cell__z2">優先權</div>
+              <div class="inner-drop-cell cell__z5">預計起始日</div>
+              <div class="inner-drop-cell cell__z5">預計完成日</div>
+              <div class="inner-drop-cell cell__z5">實際起始日</div>
+              <div class="inner-drop-cell cell__z5">實際完成日</div>
+              <div class="inner-drop-cell cell__z5">預計完成率(%)</div>
+              <div class="inner-drop-cell cell__z5">實際完成率(%)</div>
+              <div class="inner-drop-cell cell__z5">佐證文件連結</div>
+              <div class="inner-drop-cell cell__z5">狀態</div>
+              <div class="inner-drop-cell cell__z5">負責人員</div>
+              <div class="inner-drop-cell cell__z15">操作</div>
+            </div>
+            <div
+              class="inner-drop-row"
+              cdkDragLockAxis="y"
+              cdkDrag
+              *ngFor="let item of item.subItem; let i = index"
+            >
+              <ng-container *ngIf="editItem === item; else elseTemplate">
+                <div class="inner-drop-cell cell__z2">{{ i + 1 }}</div>
+                <div class="inner-drop-cell cell__z10">
+                  <input type="text" [(ngModel)]="item.itemName" />
+                </div>
+                <div class="inner-drop-cell cell__z2">
+                  <select [(ngModel)]="item.priority">
+                    <option value="">請選擇</option>
+                    <option value="高">高</option>
+                    <option value="中">中</option>
+                    <option value="低">低</option>
+                  </select>
+                </div>
+                <div class="inner-drop-cell cell__z5">
+                  <input type="text" [(ngModel)]="item.estStartDate" />
+                </div>
+                <div class="inner-drop-cell cell__z5">
+                  <input type="text" [(ngModel)]="item.estEndDate" />
+                </div>
+                <div class="inner-drop-cell cell__z5">
+                  <input type="text" [(ngModel)]="item.realStartDate" />
+                </div>
+                <div class="inner-drop-cell cell__z5">
+                  <input type="text" [(ngModel)]="item.realEndDate" />
+                </div>
+                <div class="inner-drop-cell cell__z5">
+                  <input type="text" [(ngModel)]="item.estComplateRate" />
+                </div>
+                <div class="inner-drop-cell cell__z5">
+                  <input type="text" [(ngModel)]="item.realComplateRate" />
+                </div>
+                <div class="inner-drop-cell cell__z5">
+                  <input type="text" [(ngModel)]="item.doc" />
+                </div>
+                <div class="inner-drop-cell cell__z5">
+                  <input type="text" [(ngModel)]="item.state" />
+                </div>
+                <div class="inner-drop-cell cell__z5">
+                  <input type="text" [(ngModel)]="item.principal" />
+                </div>
+                <div class="inner-drop-cell cell__z15">
+                  <button
+                    [disabled]="editOtherItemNow(item)"
+                    class="table-btn"
+                    mat-stroked-button
+                    color="primary"
+                    (click)="clearTable()"
+                  >
+                    刪除
+                  </button>
+                  <button
+                    *ngIf="!(editItem === item)"
+                    [disabled]="editOtherItemNow(item)"
+                    class="table-btn"
+                    mat-raised-button
+                    color="primary"
+                    (click)="setEditItem(item)"
+                  >
+                    編輯
+                  </button>
+                  <button
+                    *ngIf="editItem === item"
+                    class="table-btn"
+                    mat-raised-button
+                    color="primary"
+                    (click)="confrimItem(item)"
+                  >
+                    確認
+                  </button>
+                </div>
+              </ng-container>
+              <ng-template #elseTemplate>
+                <div class="inner-drop-cell cell__z2">{{ i + 1 }}</div>
+                <div class="inner-drop-cell cell__z10">
+                  {{ item.itemName }}
+                </div>
+                <div class="inner-drop-cell cell__z2">{{ item.priority }}</div>
+                <div class="inner-drop-cell cell__z5">
+                  {{ item.estStartDate }}
+                </div>
+                <div class="inner-drop-cell cell__z5">
+                  {{ item.estEndDate }}
+                </div>
+                <div class="inner-drop-cell cell__z5">
+                  {{ item.realStartDate }}
+                </div>
+                <div class="inner-drop-cell cell__z5">
+                  {{ item.realEndDate }}
+                </div>
+                <div class="inner-drop-cell cell__z5">
+                  {{ item.estComplateRate }}
+                </div>
+                <div class="inner-drop-cell cell__z5">
+                  {{ item.realComplateRate }}
+                </div>
+                <div class="inner-drop-cell cell__z5">{{ item.doc }}</div>
+                <div class="inner-drop-cell cell__z5">{{ item.state }}</div>
+                <div class="inner-drop-cell cell__z5">{{ item.principal }}</div>
+                <div class="inner-drop-cell cell__z15">
+                  <button
+                    [disabled]="editOtherItemNow(item)"
+                    class="table-btn"
+                    mat-stroked-button
+                    color="primary"
+                    (click)="clearTable()"
+                  >
+                    刪除
+                  </button>
+                  <button
+                    *ngIf="!(editItem === item)"
+                    [disabled]="editOtherItemNow(item)"
+                    class="table-btn"
+                    mat-raised-button
+                    color="primary"
+                    (click)="setEditItem(item)"
+                  >
+                    編輯
+                  </button>
+                  <button
+                    *ngIf="editItem === item"
+                    class="table-btn"
+                    mat-raised-button
+                    color="primary"
+                    (click)="confrimItem(item)"
+                  >
+                    確認
+                  </button>
+                </div>
+              </ng-template>
+            </div>
+          </div>
+        </div>
+        <!--  inner area -->
       </div>
     </div>
   </div>

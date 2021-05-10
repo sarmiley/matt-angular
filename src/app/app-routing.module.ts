@@ -35,7 +35,7 @@ const routes: Routes = [
       },
       {
         path: '',
-        redirectTo: 'dropTable',
+        redirectTo: 'dropTableCustom',
         pathMatch: 'full'
       }
     ]
